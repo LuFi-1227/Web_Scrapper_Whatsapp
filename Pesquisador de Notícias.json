@@ -1,0 +1,1095 @@
+{
+  "name": "Pesquisador de Notícias",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1617b60b-70a7-4012-945e-5083792b890c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        -64
+      ],
+      "id": "214805da-4bfe-425c-84eb-c1ff3ca5e612",
+      "name": "Webhook",
+      "webhookId": "1617b60b-70a7-4012-945e-5083792b890c"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c8cf0a20-470f-4823-a035-cf74eaca33ab",
+              "name": "body.data.key.remoteJid",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "5de05aa9-3dc8-4bf7-8f29-18ea911738e5",
+              "name": "body.data.key.remoteJidAlt",
+              "value": "={{ $json.body.data.key.remoteJidAlt.split('.')[0].replaceAll('@s', '') }}",
+              "type": "string"
+            },
+            {
+              "id": "e7c547c5-2025-40e6-a6fc-c85267ac0898",
+              "name": "body.data.pushName",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "b86b8f5f-d066-4e48-9e49-932c8fd38c81",
+              "name": "body.data.message.conversation",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "3aa0dd19-2f11-4bcd-b460-569c8789af35",
+              "name": "body.data.messageType",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "cb867b73-3840-4930-ba04-8fe024a088bb",
+              "name": "body.instance",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "8d9b153c-07b2-4e58-8f0f-d7f012f7e896",
+              "name": "body.data.key.id",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        -64
+      ],
+      "id": "4862fbb3-40af-4dcf-b3d5-85659ec36507",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "=propertyName",
+        "key": "={{ $json.body.data.key.remoteJidAlt }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        160,
+        -64
+      ],
+      "id": "320b548e-0b48-49a1-b470-77430c491f17",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    },
+                    "id": "9c46d925-bd63-444a-baec-29a92557f9f3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=Verificar BD"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "57b6ca0e-5da4-425a-b53e-62bd77464f4c",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "nome",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9c00dc9b-f1b4-4084-b6a5-2fb5564fbe7c",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "cpf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "59e175de-bdcf-4a80-8fe5-3edbaf615092",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "email",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ccf29421-3a48-4459-902e-bf238824ca1a",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "Local",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6f3f71c0-7d67-46cd-84d5-a26ab10ad6f0",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "Ver noticias",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f894fc62-3019-4253-9cfb-fa58206c6c40",
+                    "leftValue": "={{ $json.propertyName }}",
+                    "rightValue": "Opção de noticia",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -112
+      ],
+      "id": "70e77509-db82-4cc9-ba2e-a5d4df374002",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM usuarios WHERE telefone = '{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}';",
+        "options": {
+          "replaceEmptyStrings": true
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        640,
+        -688
+      ],
+      "id": "873880a5-9943-4317-9460-0034552c6e52",
+      "name": "Execute a SQL query",
+      "alwaysOutputData": true,
+      "notesInFlow": false,
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9b8eaddf-3e78-42d3-a85e-d47d899da170",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        -688
+      ],
+      "id": "3945ff53-491f-4435-9bfc-8b4265ce05d4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Bem vindo de volta, {{ $json.nome }}! Digite a opção desejada para hoje:\\n1 - Pesquisar um assunto;\\n2 - Sair\\n\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1200,
+        -784
+      ],
+      "id": "5c50bf96-5e9d-47ab-ae79-f3ef2b287627",
+      "name": "Cumprimento ao usuário existente"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "Ver noticias",
+        "expire": true,
+        "ttl": 6000
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        992,
+        -784
+      ],
+      "id": "ea5d2762-1ec5-4d93-8a67-7a29ba3bb2d0",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "nome"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        992,
+        -624
+      ],
+      "id": "a623e6e7-3862-4caa-87c3-7e1824e23284",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1200,
+        -624
+      ],
+      "id": "dbf529fb-6822-485f-8146-4a599f918685",
+      "name": "Inicio do resgistro de usuario"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b78cb657-fb9f-4383-b53b-1ca4edcc2bfd",
+              "leftValue": "={{ $('Redis').item.json.propertyName }}",
+              "rightValue": "Ver noticias",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "e2acaf4b-3e10-461e-b6a4-6c1e0399b8ae",
+              "leftValue": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1040,
+        128
+      ],
+      "id": "5464abdc-b8f8-4e63-b5ce-2d3b35646037",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        272
+      ],
+      "id": "1453dd18-d682-49e8-ac15-63efb3fbf189",
+      "name": "Redis3",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Se deseja sair, tudo bem! Até a próxima! Ficarei ansioso pelo nosso próximo encontro!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1664,
+        272
+      ],
+      "id": "a0bd1ac7-b2d3-4a8e-bc31-4008e4bf3a87",
+      "name": "Finalização do programa"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Muito bem! Agora, digite a opção desejada para hoje:\\n1 - Pesquisar sobre Eleições em 2026;\\n2 - Pesquisar sobre Copa do mundo em 2026\\n3 - Sair\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1664,
+        112
+      ],
+      "id": "39ae617d-c991-42b6-8664-7870a12d9ae2",
+      "name": "Dando opções de pesquisa"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "Opção de noticia"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        112
+      ],
+      "id": "61764978-7656-477d-99f7-a63f7abd7ea7",
+      "name": "Redis4",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cc8555e9-87f4-4b1e-ba33-279116cc982b",
+              "leftValue": "={{ $json.propertyName }}",
+              "rightValue": "Opção de noticia",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "5d8514e2-1823-4c6b-a6a2-7b2cedd22398",
+              "leftValue": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1040,
+        272
+      ],
+      "id": "6371da7e-e0c6-4b91-a61b-27e3db7c160a",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.option",
+        "value": "={{ $('Edit Fields').item.json.body.data.message.conversation }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        432
+      ],
+      "id": "88dd7f6b-6fce-455f-bc1b-cd2a87de6118",
+      "name": "Redis5",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.option",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        624,
+        288
+      ],
+      "id": "c93337e5-b831-411b-8111-bd250e163c40",
+      "name": "Redis6",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cbb832f2-8512-4488-a96c-f39e095cd100",
+              "leftValue": "={{ $json.propertyName }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        784,
+        288
+      ],
+      "id": "c86bdefb-3636-4513-93dd-b63e9e4716f3",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Ótima escolha! Agora, me diga por quantas notícias eu devo procurar (digite um número de 5 a 10)\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1664,
+        432
+      ],
+      "id": "993a2ac2-bd72-477b-a1fb-8d4d2d4fa566",
+      "name": "Finalização do programa1"
+    },
+    {
+      "parameters": {
+        "jsCode": "var id = $('Redis6').first().json.propertyName\n\nlet assunto = ''\n\nif(id == '1'){\n  assunto = '\"Eleições 2026\"'\n}else{\n  assunto = '\"Copa 2026\"'\n}\n\nreturn {\"assunto\": assunto}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        704
+      ],
+      "id": "3221e3a6-8ebe-4ec2-b957-00ba94fb98e8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "69e9ae91-0938-485d-90eb-eca75dba8683",
+              "leftValue": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+              "rightValue": "2",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1232,
+        176
+      ],
+      "id": "bf51a9c4-0c41-4a75-b17e-b9998b59480b",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Você digitou uma opção inválida, tente de novo!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1536,
+        -16
+      ],
+      "id": "fd34b872-5aab-4082-92a0-014de8df17ff",
+      "name": "Opção inválida"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5b479436-1d46-4600-9a01-824ac3a46307",
+              "leftValue": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+              "rightValue": "1",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fbf46e11-1a35-4f2c-ab5b-7ca614576a78",
+              "leftValue": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+              "rightValue": "2",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1232,
+        320
+      ],
+      "id": "d5865871-061f-406c-bbdd-1deeb6830236",
+      "name": "If5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cumprimento ao usuário existente": {
+      "main": [
+        []
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "Cumprimento ao usuário existente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "Inicio do resgistro de usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Redis4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis3": {
+      "main": [
+        [
+          {
+            "node": "Finalização do programa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis4": {
+      "main": [
+        [
+          {
+            "node": "Dando opções de pesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Redis3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis6": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis5": {
+      "main": [
+        [
+          {
+            "node": "Finalização do programa1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Redis3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Opção inválida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Redis5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Opção inválida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7f05554a-2d15-4c0b-874c-f0902b1f64ae",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90683a3250d6a72cfac3a0065f86e58cd6b7591415b50618213fe1b4fb8d247"
+  },
+  "id": "rPMbyxvZREDr2KeYwEJdH",
+  "tags": []
+}
