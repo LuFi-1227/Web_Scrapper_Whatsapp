@@ -3,11 +3,25 @@ def web_search(query, number_of_results, verbose=False):
 
     notices = []
     with DDGS() as ddgs:
+        base_query = f"notícias {query} Brasil"
+        sites = [
+            "g1.globo.com",
+            "globo.com",
+            "estadao.com.br",
+            "folha.uol.com.br",
+            "cnnbrasil.com.br",
+            "bbc.com/portuguese",
+            "uol.com.br",
+            "terra.com.br"
+        ]
+        site_filter = " OR ".join(f"site:{s}" for s in sites)
+        final_query = f"{base_query} ({site_filter})"
+
         results = ddgs.text(
-            query,
+            final_query,
             region="br-pt",
             safesearch="off",
-            timelimit="w",
+            timelimit="d",         # notícias do dia
             max_results=number_of_results
         )
 
