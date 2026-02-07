@@ -2291,6 +2291,60 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"O cpf que você envio já está cadastrado, entre em contato com o suporte!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2208,
+        -352
+      ],
+      "id": "1b3f758f-a1ad-458e-b0fb-a17b029f30ee",
+      "name": "CPF já existe"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Seja bem vindo ao bot pesquisador de notícias! Se necessário, fale com o suporte:\\n\\nTelefone: 63984218006 - Luiz Filipe\\n\\nEmail: luizsalvesp@gmail.com\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        -192
+      ],
+      "id": "47e71cdf-9b63-4dcb-b23f-54e75a950349",
+      "name": "Contato com o suporte"
     }
   ],
   "pinData": {},
@@ -2311,6 +2365,11 @@
         [
           {
             "node": "Redis",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Contato com o suporte",
             "type": "main",
             "index": 0
           }
@@ -2584,7 +2643,13 @@
     },
     "If6": {
       "main": [
-        [],
+        [
+          {
+            "node": "Redis7",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Redis7",
@@ -2662,7 +2727,13 @@
     },
     "If7": {
       "main": [
-        [],
+        [
+          {
+            "node": "CPF já existe",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Redis10",
@@ -3105,7 +3176,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "b708dcbe-cb10-4f3f-b983-cef8222f77e1",
+  "versionId": "6b458f00-499c-4c12-a327-3d91bbc021ec",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "f90683a3250d6a72cfac3a0065f86e58cd6b7591415b50618213fe1b4fb8d247"
