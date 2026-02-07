@@ -118,28 +118,27 @@ def search_and_scrap(query, number_of_results, verbose=False):
     
     return response
 
-if __name__ == "__main__":
-    from flask import Flask, request, jsonify, Response
-    import json
+from flask import Flask, request, jsonify, Response
+import json
 
-    app = Flask(__name__)
-    app.config["JSON_AS_ASCII"] = False
+app = Flask(__name__)
+app.config["JSON_AS_ASCII"] = False
 
 
-    @app.route("/", methods=["GET"])
-    def index():
-        query = request.args.get("query")
-        number_of_results = request.args.get("number_of_results", type=int, default=5)
+@app.route("/", methods=["GET"])
+def index():
+    query = request.args.get("query")
+    number_of_results = request.args.get("number_of_results", type=int, default=5)
 
-        if not query:
-            return jsonify({"error": "Parâmetro 'query' é obrigatório"}), 400
+    if not query:
+        return jsonify({"error": "Parâmetro 'query' é obrigatório"}), 400
 
-        response = search_and_scrap(query, number_of_results)
-        return Response(
-            json.dumps(response, ensure_ascii=False),
-            content_type="application/json; charset=utf-8"
-        )
+    response = search_and_scrap(query, number_of_results)
+    return Response(
+        json.dumps(response, ensure_ascii=False),
+        content_type="application/json; charset=utf-8"
+    )
 
-    app.run(host="localhost", port=5000, debug=True)
+app.run(host="localhost", port=5000, debug=True)
 
         

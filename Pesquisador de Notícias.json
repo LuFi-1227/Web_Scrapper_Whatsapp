@@ -30,7 +30,7 @@
             {
               "id": "5de05aa9-3dc8-4bf7-8f29-18ea911738e5",
               "name": "body.data.key.remoteJidAlt",
-              "value": "={{ $json.body.data.key.remoteJidAlt.split('.')[0].replaceAll('@s', '') }}",
+              "value": "={{ $json.body.data.key.remoteJid.split('@')[0] }}",
               "type": "string"
             },
             {
@@ -62,6 +62,18 @@
               "name": "body.data.key.id",
               "value": "={{ $json.body.data.key.id }}",
               "type": "string"
+            },
+            {
+              "id": "2eed4174-e377-467c-984b-a0216442dd5a",
+              "name": "body.data.message.locationMessage.degreesLatitude",
+              "value": "={{ $json.body.data.message.locationMessage.degreesLatitude }}",
+              "type": "number"
+            },
+            {
+              "id": "37e2b1ec-ecfe-43bb-8d31-616d10443291",
+              "name": "body.data.message.locationMessage.degreesLongitude",
+              "value": "={{ $json.body.data.message.locationMessage.degreesLongitude }}",
+              "type": "number"
             }
           ]
         },
@@ -70,7 +82,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -48,
+        -16,
         -64
       ],
       "id": "4862fbb3-40af-4dcf-b3d5-85659ec36507",
@@ -86,8 +98,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        160,
-        -64
+        400,
+        -48
       ],
       "id": "320b548e-0b48-49a1-b470-77430c491f17",
       "name": "Redis",
@@ -148,7 +160,9 @@
                   }
                 ],
                 "combinator": "and"
-              }
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastro de nome"
             },
             {
               "conditions": {
@@ -170,7 +184,9 @@
                   }
                 ],
                 "combinator": "and"
-              }
+              },
+              "renameOutput": true,
+              "outputKey": "cadastro de cpf"
             },
             {
               "conditions": {
@@ -192,7 +208,9 @@
                   }
                 ],
                 "combinator": "and"
-              }
+              },
+              "renameOutput": true,
+              "outputKey": "Cadastro de email"
             },
             {
               "conditions": {
@@ -268,7 +286,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        336,
+        544,
         -112
       ],
       "id": "70e77509-db82-4cc9-ba2e-a5d4df374002",
@@ -285,7 +303,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        640,
+        848,
         -688
       ],
       "id": "873880a5-9943-4317-9460-0034552c6e52",
@@ -328,7 +346,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        768,
+        976,
         -688
       ],
       "id": "3945ff53-491f-4435-9bfc-8b4265ce05d4",
@@ -355,7 +373,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1200,
+        1408,
         -784
       ],
       "id": "5c50bf96-5e9d-47ab-ae79-f3ef2b287627",
@@ -372,7 +390,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        992,
+        1200,
         -784
       ],
       "id": "ea5d2762-1ec5-4d93-8a67-7a29ba3bb2d0",
@@ -393,7 +411,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        992,
+        1200,
         -624
       ],
       "id": "a623e6e7-3862-4caa-87c3-7e1824e23284",
@@ -404,19 +422,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        1200,
-        -624
-      ],
-      "id": "dbf529fb-6822-485f-8146-4a599f918685",
-      "name": "Inicio do resgistro de usuario"
     },
     {
       "parameters": {
@@ -455,8 +460,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1040,
-        128
+        1600,
+        736
       ],
       "id": "5464abdc-b8f8-4e63-b5ce-2d3b35646037",
       "name": "If1"
@@ -469,8 +474,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1536,
-        272
+        2096,
+        880
       ],
       "id": "1453dd18-d682-49e8-ac15-63efb3fbf189",
       "name": "Redis3",
@@ -502,8 +507,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1664,
-        272
+        2224,
+        880
       ],
       "id": "a0bd1ac7-b2d3-4a8e-bc31-4008e4bf3a87",
       "name": "Finalização do programa"
@@ -529,8 +534,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1664,
-        112
+        2224,
+        720
       ],
       "id": "39ae617d-c991-42b6-8664-7870a12d9ae2",
       "name": "Dando opções de pesquisa"
@@ -544,8 +549,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1536,
-        112
+        2096,
+        720
       ],
       "id": "61764978-7656-477d-99f7-a63f7abd7ea7",
       "name": "Redis4",
@@ -593,8 +598,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1040,
-        272
+        1600,
+        880
       ],
       "id": "6371da7e-e0c6-4b91-a61b-27e3db7c160a",
       "name": "If2"
@@ -608,8 +613,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1536,
-        432
+        2208,
+        1040
       ],
       "id": "88dd7f6b-6fce-455f-bc1b-cd2a87de6118",
       "name": "Redis5",
@@ -629,8 +634,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        624,
-        288
+        976,
+        896
       ],
       "id": "c93337e5-b831-411b-8111-bd250e163c40",
       "name": "Redis6",
@@ -670,38 +675,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        784,
-        288
+        1136,
+        896
       ],
       "id": "c86bdefb-3636-4513-93dd-b63e9e4716f3",
       "name": "If3"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "chavezika"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Ótima escolha! Agora, me diga por quantas notícias eu devo procurar (digite um número de 5 a 10)\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        1664,
-        432
-      ],
-      "id": "993a2ac2-bd72-477b-a1fb-8d4d2d4fa566",
-      "name": "Finalização do programa1"
     },
     {
       "parameters": {
@@ -710,8 +688,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1040,
-        704
+        1440,
+        1136
       ],
       "id": "3221e3a6-8ebe-4ec2-b957-00ba94fb98e8",
       "name": "Code in JavaScript"
@@ -745,8 +723,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1232,
-        176
+        1792,
+        784
       ],
       "id": "bf51a9c4-0c41-4a75-b17e-b9998b59480b",
       "name": "If4"
@@ -772,8 +750,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1536,
-        -16
+        2112,
+        576
       ],
       "id": "fd34b872-5aab-4082-92a0-014de8df17ff",
       "name": "Opção inválida"
@@ -817,11 +795,1502 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1232,
-        320
+        1792,
+        928
       ],
       "id": "d5865871-061f-406c-bbdd-1deeb6830236",
       "name": "If5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Bem, vi aqui que este número não possui um cadastro no sistema, por favor, me envie o seu nome completo.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -624
+      ],
+      "id": "c7f92d2c-09b2-4c53-85c3-fa971abb35ae",
+      "name": "Início do cadastro, solicitação do nome"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM usuarios WHERE nome = '{{ $('Edit Fields').item.json.body.data.message.conversation.toUpperCase() }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        848,
+        -464
+      ],
+      "id": "cfabfeb4-3168-49fb-89f0-b397fee2454b",
+      "name": "Execute a SQL query1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "38c1b348-4a12-4de2-b36b-86fc3a5a8d4a",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1008,
+        -464
+      ],
+      "id": "e98fc7af-4ca8-4038-be61-3f92d6c9b70b",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "cpf"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -400
+      ],
+      "id": "1bc4d8cf-9dd2-4721-8a95-d1ebc9c10a45",
+      "name": "Redis7",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.dados",
+        "value": "={\"nome\": \"{{ $('Edit Fields').item.json.body.data.message.conversation.toUpperCase() }}\"\n}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        -400
+      ],
+      "id": "2e582870-8c2b-423b-9824-ab187304c430",
+      "name": "Redis8",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Certo, seu nome é {{ $('Edit Fields').item.json.body.data.message.conversation }} e já está salvo no banco de dados, agora, preciso do seu CPF.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1520,
+        -400
+      ],
+      "id": "d89d0335-8027-4abe-b3fe-c6c6e8513829",
+      "name": "Início do cadastro, solicitação do cpf"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.dados",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -288
+      ],
+      "id": "66364b5b-cab9-4dbd-b0d3-6f151125506b",
+      "name": "Redis9",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM usuarios WHERE cpf = '{{ $json.cpf }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1808,
+        -288
+      ],
+      "id": "b8dca30f-71d4-487e-9975-8d15bfaf5570",
+      "name": "Execute a SQL query2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3b1dcfb0-2b23-4804-9e04-33d050a9ae4b",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1984,
+        -288
+      ],
+      "id": "93560b9b-77f2-4150-8300-4ce4d72f4f03",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "email"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        -224
+      ],
+      "id": "1f180e65-127e-42af-bffb-f9318c987f4a",
+      "name": "Redis10",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.dados",
+        "value": "={\"nome\": \"{{ $('Code in JavaScript1').item.json.nome }}\", \"cpf\": \"{{ $('Code in JavaScript1').item.json.cpf }}\"}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2336,
+        -224
+      ],
+      "id": "d2900221-4d28-47a7-8e0c-a77d9422db3c",
+      "name": "Redis11",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Certo, agora, me diga seu email\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2448,
+        -224
+      ],
+      "id": "52f446cd-9b83-4931-b03f-71dfd2e3992c",
+      "name": "Início do cadastro, solicitação do email"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14c11e23-3561-498a-b2d0-abf95d4e2277",
+              "name": "nome",
+              "value": "={{ $json.propertyName.parseJson().nome }}",
+              "type": "string"
+            },
+            {
+              "id": "4f0d83b0-e289-43b7-911f-8a898bf55d0f",
+              "name": "body.data.message.conversation",
+              "value": "={{ $('Edit Fields').item.json.body.data.message.conversation.replaceAll('.',\"\").replaceAll(' ', '').replaceAll('-', '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        -288
+      ],
+      "id": "aabbeffb-0f2b-4ac4-9072-1b0493bb5e5f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsCode": "function validarCPF(cpf) {\n  if (!cpf) return false;\n\n  // remove tudo que não for número\n  cpf = cpf.toString().replace(/\\D/g, '');\n\n  // deve ter 11 dígitos\n  if (cpf.length !== 11) return false;\n\n  // elimina CPFs inválidos conhecidos (111.111.111-11 etc)\n  if (/^(\\d)\\1{10}$/.test(cpf)) return false;\n\n  let soma = 0;\n  let resto;\n\n  // 1º dígito verificador\n  for (let i = 1; i <= 9; i++) {\n    soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);\n  }\n  resto = (soma * 10) % 11;\n  if (resto === 10 || resto === 11) resto = 0;\n  if (resto !== parseInt(cpf.substring(9, 10))) return false;\n\n  // 2º dígito verificador\n  soma = 0;\n  for (let i = 1; i <= 10; i++) {\n    soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);\n  }\n  resto = (soma * 10) % 11;\n  if (resto === 10 || resto === 11) resto = 0;\n  if (resto !== parseInt(cpf.substring(10, 11))) return false;\n\n  return true;\n}\n\nif(validarCPF($input.first().json.body.data.message.conversation)){\n  return [{\"cpf\": $input.first().json.body.data.message.conversation,\n          \"nome\": $input.first().json.nome}]\n}else{\n  return [{\"cpf\": false}];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        -288
+      ],
+      "id": "9523bb9c-1fcb-4a63-8041-a6c40f656aed",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c5737ec8-b232-4e3a-bbbf-ca36468da13c",
+              "leftValue": "={{ $json.cpf }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1520,
+        -272
+      ],
+      "id": "3231fc59-14b5-4655-826a-a11647abea9d",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.dados",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -128
+      ],
+      "id": "e7049728-9059-4b46-b111-fbc859f05a05",
+      "name": "Redis12",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7e936b55-5bd9-4a2b-811b-ea60d93720c1",
+              "name": "nome",
+              "value": "={{ $json.propertyName.parseJson().nome }}",
+              "type": "string"
+            },
+            {
+              "id": "87d5a20e-c8ec-4ff1-84fe-fe9cad55e998",
+              "name": "cpf",
+              "value": "={{ $json.propertyName.parseJson().cpf }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        -128
+      ],
+      "id": "a27183d4-e5b6-4505-b305-b9d5b2127adf",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "function validarEmail(email) {\n  if (!email) return false;\n\n  email = email.toString().trim().toLowerCase();\n\n  // regex segura (nem permissiva demais, nem chata demais)\n  const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;\n\n  return regex.test(email);\n}\n\nreturn [{\n    \"nome\": $input.first().json.nome,\n    \"cpf\": $input.first().json.cpf,\n    \"email\": $('Edit Fields').first().json.body.data.message.conversation,\n    \"telefone\": $('Edit Fields').first().json.body.data.key.remoteJidAlt\n  }]\n\nif(validarEmail($('Edit Fields').first().json.body.data.message.conversation)){\n  return [{\n    \"nome\": $input.first().json.nome,\n    \"cpf\": $input.first().json.cpf,\n    \"email\": $('Edit Fields').first().json.body.data.message.conversation,\n    \"telefone\": $('Edit Fields').first().json.body.data.key.remoteJidAlt\n  }]\n}else{\n  return [{\"cpf\": false}]\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        -128
+      ],
+      "id": "e7b525cb-1f05-43f8-9dd1-ca18c070617b",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fe649d66-5d62-474e-a592-92b8747ffee2",
+              "leftValue": "={{ $json.cpf }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1712,
+        -128
+      ],
+      "id": "b538e701-1e3c-4784-b61e-df285a643c3a",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO usuarios (nome, cpf, email, telefone)\nVALUES ('{{ $json.nome }}','{{ $json.cpf }}','{{ $json.email }}','{{ $json.telefone }}');\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2080,
+        32
+      ],
+      "id": "cefacc20-490e-4176-bc9b-a7917e2f8318",
+      "name": "Execute a SQL query3",
+      "alwaysOutputData": true,
+      "retryOnFail": false,
+      "executeOnce": false,
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"O email que você envio está inválido, envie novamente!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2000,
+        -144
+      ],
+      "id": "95fbb9af-7440-49b8-adc6-5dd383750592",
+      "name": "Email inválido"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e8140790-09b2-4bf4-9ec2-5a12763097ea",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2272,
+        32
+      ],
+      "id": "0a2e1e04-712d-4854-9eef-ecd373a1878b",
+      "name": "If10"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Seu cadastro foi feito com sucesso, agora, me envie sua localização pelo whatsapp.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2576,
+        32
+      ],
+      "id": "c606e99e-b3c4-4a4b-b204-d3c86fe64e99",
+      "name": "Solicitação de localização"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Seu cadastro falhou, tente novamente mais tarde ou entre em contato com o suporte!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2448,
+        176
+      ],
+      "id": "63fbe752-29fa-4947-8dd3-aeb70336f6d2",
+      "name": "Falha no cadastro"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "Local",
+        "expire": true,
+        "ttl": 6000
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2448,
+        32
+      ],
+      "id": "651ad7f6-c64a-4344-8918-e9da6e31d871",
+      "name": "Redis13",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03ada02f-2645-4b7a-a549-c3b1f2dd5f0a",
+              "name": "body.data.message.locationMessage.degreesLatitude",
+              "value": "={{ $('Edit Fields').item.json.body.data.message.locationMessage.degreesLatitude }}",
+              "type": "number"
+            },
+            {
+              "id": "3fa7a1be-ce14-49f8-a192-94505b028094",
+              "name": "body.data.message.locationMessage.degreesLongitude",
+              "value": "={{ $('Edit Fields').item.json.body.data.message.locationMessage.degreesLongitude }}",
+              "type": "number"
+            },
+            {
+              "id": "4ecd43ec-c7e0-451c-b855-a1da81655c79",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        32
+      ],
+      "id": "35fac425-715f-49d3-aa3b-dd50d0d4282b",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM usuarios WHERE telefone = '{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        960,
+        48
+      ],
+      "id": "466634db-4b74-4223-9f1a-4e34ff31973c",
+      "name": "Execute a SQL query4",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f9886c1d-94c1-4f9e-9a77-8045fc793ac3",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1104,
+        48
+      ],
+      "id": "1d428798-0b22-4ef4-9c01-0169c347b739",
+      "name": "If11"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO localizacoes (\n    id_usuario,\n    coordenada_latitude,\n    coordenada_longitude,\n    nome_local\n)\nVALUES (\n    {{ $('Edit Fields3').item.json.id }},\n    {{ $('Edit Fields3').item.json.body.data.message.locationMessage.degreesLatitude }},\n    {{ $('Edit Fields3').item.json.body.data.message.locationMessage.degreesLongitude }},\n    '{{ $json.address.city }}, {{ $json.address.road }}, {{ $json.address.region }}'\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2064,
+        288
+      ],
+      "id": "6db24c00-9619-45ae-94ca-4145e829a0d0",
+      "name": "Execute a SQL query5",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a2a22bc4-34fe-499c-9ba2-06e161687fe1",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2208,
+        288
+      ],
+      "id": "585df939-6ea9-47a3-a08f-97c72c9b7318",
+      "name": "If12"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Agora seu cadastro está completo! Digite a opção desejada para hoje:\\n1 - Pesquisar um assunto;\\n2 - Sair\\n\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2816,
+        304
+      ],
+      "id": "52230596-f873-422d-a5d0-c29b54abb517",
+      "name": "Cumprimento ao usuário existente1"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "Ver noticias",
+        "expire": true,
+        "ttl": 6000
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2608,
+        304
+      ],
+      "id": "3c93f21e-e079-4bf2-9806-bd96a4eb827a",
+      "name": "Redis14",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Seu cadastro falhou, tente novamente mais tarde ou entre em contato com o suporte!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2432,
+        368
+      ],
+      "id": "224a0e6f-ad71-4e01-b696-32029be0ca17",
+      "name": "Falha no cadastro1"
+    },
+    {
+      "parameters": {
+        "url": "=https://nominatim.openstreetmap.org/reverse?lat={{ $json.body.data.message.locationMessage.degreesLatitude }}&lon={{ $json.body.data.message.locationMessage.degreesLongitude }}&format=json ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "zap-scrapper (luizsalvesp@gmail.com)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1632,
+        112
+      ],
+      "id": "dcc556c0-d3cb-4dc8-b111-5da81b66b21a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "39637234-05c4-4d9e-965f-aebdf0c8d548",
+              "leftValue": "={{ $json.address.city }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1840,
+        112
+      ],
+      "id": "7e26ec1e-8c9e-4b64-8bf8-ea04b97ce23c",
+      "name": "If13"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"O cpf que você envio está inválido, envie novamente!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1808,
+        -464
+      ],
+      "id": "109887f9-e531-49f8-a53f-011ba80b5d2a",
+      "name": "CPF inválido"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Ótima escolha! Agora, me diga por quantas notícias eu devo procurar (digite um número de 5 a 10)\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2336,
+        1040
+      ],
+      "id": "993a2ac2-bd72-477b-a1fb-8d4d2d4fa566",
+      "name": "Escolha de numero de noticias"
+    },
+    {
+      "parameters": {
+        "url": "=http://python:8000/?query={{ $json.assunto }}&number_of_results={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1680,
+        1152
+      ],
+      "id": "1d1f758d-8a51-4331-8ba7-47b6b20ca450",
+      "name": "HTTP Request1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "batchSize": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1984,
+        1152
+      ],
+      "id": "d09eca5b-8d67-4af4-866f-65c8041d5970",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO noticias (\n    titulo,\n    data_publicacao,\n    link,\n    assunto,\n    resumo,\n    corpo\n)\nVALUES (\n    '{{ $json.title }}',\n    '{{ $json.date }}',\n    '{{ $json.url }}',\n    '{{ $('Code in JavaScript').item.json.assunto }}',\n   '{{ $json.summary }}',\n    '{{ $json.body }}'\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2688,
+        1312
+      ],
+      "id": "a84ae071-9ba2-48cc-a1ad-9b3de1f2b860",
+      "name": "Execute a SQL query6",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "noticias",
+          "mode": "list",
+          "cachedResultName": "noticias"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "titulo",
+              "value": "={{ $json.title }}"
+            },
+            {
+              "column": "link",
+              "value": "={{ $json.url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2192,
+        1392
+      ],
+      "id": "991be437-041a-4df9-8f22-89d88729c062",
+      "name": "Select rows from a table",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "88125800-bfca-46d3-a1db-5eabecbca1a2",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2336,
+        1392
+      ],
+      "id": "2e332aac-9656-4245-a713-33e329905f90",
+      "name": "If14"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "noticias",
+          "mode": "list",
+          "cachedResultName": "noticias"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "titulo",
+              "value": "={{ $json.titulo }}"
+            },
+            {
+              "column": "link",
+              "value": "={{ $json.link }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3008,
+        1424
+      ],
+      "id": "78b68fa7-415b-48cc-a693-ad2509dadca3",
+      "name": "Select rows from a table1",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "usuarios",
+          "mode": "list",
+          "cachedResultName": "usuarios"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "telefone",
+              "value": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3168,
+        1440
+      ],
+      "id": "a9aeed82-197e-4bdd-81e5-59db79d02e4a",
+      "name": "Select rows from a table2",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "noticias_exibidas",
+          "mode": "list",
+          "cachedResultName": "noticias_exibidas"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_noticia": "={{ $('Select rows from a table1').item.json.id }}",
+            "id_usuario": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "id_noticia",
+              "displayName": "id_noticia",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id_usuario",
+              "displayName": "id_usuario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3648,
+        1440
+      ],
+      "id": "c1e51e23-f618-4c70-9396-3ba108b6f9a4",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "noticias_exibidas",
+          "mode": "list",
+          "cachedResultName": "noticias_exibidas"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "id_noticia",
+              "value": "={{ $('Select rows from a table1').item.json.id }}"
+            },
+            {
+              "column": "id_usuario",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3312,
+        1440
+      ],
+      "id": "09739bd9-7bcd-4f7f-9c0c-ad2e0d74348b",
+      "name": "Select rows from a table3",
+      "credentials": {
+        "postgres": {
+          "id": "fIan5D6utwgmnoun",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "668186ac-c276-4864-9ee5-da31fd32176e",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3440,
+        1440
+      ],
+      "id": "7e8ce7dd-f952-408f-972d-31385f5e4f55",
+      "name": "If15"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Título da noticia: {{ $('Loop Over Items1').item.json.title }} \\n\\nResumo: {{ $('Loop Over Items1').item.json.summary }}\\n\\n Link: {{ $('Loop Over Items1').item.json.url }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3792,
+        1440
+      ],
+      "id": "047a6b4f-410f-4dcb-a1d2-03cf10bf2a46",
+      "name": "Envio de notícias ao usuário"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Esta mensagem indica o envio de uma notícia já exibida, por favor, aguarde!\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3808,
+        1648
+      ],
+      "id": "bf2df198-6849-40de-be16-ec887b35abd2",
+      "name": "Aviso: Notícia já exibida"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        1232
+      ],
+      "id": "99b59f0f-0a51-4dd8-be6f-999db3273add",
+      "name": "Redis15",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://lab_evolution_api:8080/message/sendText/{{ $('Edit Fields').item.json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "chavezika"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}\",\n  \"key\": {\n    \"remoteJid\": \"{{ $('Edit Fields').item.json.body.data.key.remoteJid }}\",\n    \"fromMe\": true,\n    \"id\": \"{{ $('Edit Fields').item.json.body.data.key.id }}\"\n  },\n  \"text\": \"Digite a opção desejada para hoje:\\n1 - Pesquisar um assunto;\\n2 - Sair\\n\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2480,
+        1232
+      ],
+      "id": "3c86270d-54a9-43c0-8215-fdd0c71e312f",
+      "name": "Programa finalizando"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}",
+        "value": "Ver noticias",
+        "expire": true,
+        "ttl": 6000
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        1232
+      ],
+      "id": "88536d69-643a-4aee-8f21-c2bcb8d9fbc4",
+      "name": "Redis16",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -868,10 +2337,34 @@
             "index": 0
           }
         ],
-        [],
-        [],
-        [],
-        [],
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query4",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "If1",
@@ -937,7 +2430,7 @@
       "main": [
         [
           {
-            "node": "Inicio do resgistro de usuario",
+            "node": "Início do cadastro, solicitação do nome",
             "type": "main",
             "index": 0
           }
@@ -1035,7 +2528,7 @@
       "main": [
         [
           {
-            "node": "Finalização do programa1",
+            "node": "Escolha de numero de noticias",
             "type": "main",
             "index": 0
           }
@@ -1077,6 +2570,533 @@
           }
         ]
       ]
+    },
+    "Execute a SQL query1": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Redis7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis7": {
+      "main": [
+        [
+          {
+            "node": "Redis8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis8": {
+      "main": [
+        [
+          {
+            "node": "Início do cadastro, solicitação do cpf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis9": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query2": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis10": {
+      "main": [
+        [
+          {
+            "node": "Redis11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis11": {
+      "main": [
+        [
+          {
+            "node": "Início do cadastro, solicitação do email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Redis10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "CPF inválido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis12": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "Email inválido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query3": {
+      "main": [
+        [
+          {
+            "node": "If10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If10": {
+      "main": [
+        [
+          {
+            "node": "Redis13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Falha no cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis13": {
+      "main": [
+        [
+          {
+            "node": "Solicitação de localização",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query4": {
+      "main": [
+        [
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If11": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Falha no cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query5": {
+      "main": [
+        [
+          {
+            "node": "If12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis14": {
+      "main": [
+        [
+          {
+            "node": "Cumprimento ao usuário existente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If12": {
+      "main": [
+        [
+          {
+            "node": "Redis14",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Falha no cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If13": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Falha no cadastro1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Redis15",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query6": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "If14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If14": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table1": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table2": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Envio de notícias ao usuário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table3": {
+      "main": [
+        [
+          {
+            "node": "If15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If15": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aviso: Notícia já exibida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio de notícias ao usuário": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aviso: Notícia já exibida": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis15": {
+      "main": [
+        [
+          {
+            "node": "Redis16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis16": {
+      "main": [
+        [
+          {
+            "node": "Programa finalizando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -1085,7 +3105,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "7f05554a-2d15-4c0b-874c-f0902b1f64ae",
+  "versionId": "b708dcbe-cb10-4f3f-b983-cef8222f77e1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "f90683a3250d6a72cfac3a0065f86e58cd6b7591415b50618213fe1b4fb8d247"
