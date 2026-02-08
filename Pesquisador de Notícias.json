@@ -534,8 +534,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2224,
-        720
+        1840,
+        432
       ],
       "id": "39ae617d-c991-42b6-8664-7870a12d9ae2",
       "name": "Dando opções de pesquisa"
@@ -549,8 +549,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2096,
-        720
+        1696,
+        432
       ],
       "id": "61764978-7656-477d-99f7-a63f7abd7ea7",
       "name": "Redis4",
@@ -613,7 +613,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2208,
+        2416,
         1040
       ],
       "id": "88dd7f6b-6fce-455f-bc1b-cd2a87de6118",
@@ -688,8 +688,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        1136
+        1504,
+        1312
       ],
       "id": "3221e3a6-8ebe-4ec2-b957-00ba94fb98e8",
       "name": "Code in JavaScript"
@@ -795,8 +795,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1792,
-        928
+        1824,
+        992
       ],
       "id": "d5865871-061f-406c-bbdd-1deeb6830236",
       "name": "If5"
@@ -1769,7 +1769,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2336,
+        2544,
         1040
       ],
       "id": "993a2ac2-bd72-477b-a1fb-8d4d2d4fa566",
@@ -1783,8 +1783,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1680,
-        1152
+        1712,
+        1312
       ],
       "id": "1d1f758d-8a51-4331-8ba7-47b6b20ca450",
       "name": "HTTP Request1",
@@ -1792,7 +1792,7 @@
     },
     {
       "parameters": {
-        "batchSize": "={{ $('Edit Fields').item.json.body.data.message.conversation }}",
+        "batchSize": "=1",
         "options": {}
       },
       "type": "n8n-nodes-base.splitInBatches",
@@ -1807,14 +1807,14 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO noticias (\n    titulo,\n    data_publicacao,\n    link,\n    assunto,\n    resumo,\n    corpo\n)\nVALUES (\n    '{{ $json.title }}',\n    '{{ $json.date }}',\n    '{{ $json.url }}',\n    '{{ $('Code in JavaScript').item.json.assunto }}',\n   '{{ $json.summary }}',\n    '{{ $json.body }}'\n);\n",
+        "query": "INSERT INTO noticias (\n    titulo,\n    data_publicacao,\n    link,\n    assunto,\n    resumo,\n    corpo\n)\nVALUES (\n    '{{ $('Loop Over Items1').item.json.title.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.date.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.url }}',\n    '{{ $('Code in JavaScript').item.json.assunto.replaceAll('\"', '') }}',\n   '{{ $('Loop Over Items1').item.json.summary.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.body.replaceAll('\"', '').replaceAll(\"'\", \"\") }}'\n)\n  RETURNING id;\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2688,
-        1312
+        2928,
+        1248
       ],
       "id": "a84ae071-9ba2-48cc-a1ad-9b3de1f2b860",
       "name": "Execute a SQL query6",
@@ -1857,11 +1857,12 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2192,
-        1392
+        2272,
+        1376
       ],
       "id": "991be437-041a-4df9-8f22-89d88729c062",
       "name": "Select rows from a table",
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "fIan5D6utwgmnoun",
@@ -1898,7 +1899,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2336,
+        2496,
         1392
       ],
       "id": "2e332aac-9656-4245-a713-33e329905f90",
@@ -1923,11 +1924,11 @@
           "values": [
             {
               "column": "titulo",
-              "value": "={{ $json.titulo }}"
+              "value": "={{ $('Select rows from a table').item.json.titulo }}"
             },
             {
               "column": "link",
-              "value": "={{ $json.link }}"
+              "value": "={{ $('Select rows from a table').item.json.link }}"
             }
           ]
         },
@@ -1936,11 +1937,12 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3008,
-        1424
+        3072,
+        1456
       ],
       "id": "78b68fa7-415b-48cc-a693-ad2509dadca3",
       "name": "Select rows from a table1",
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "fIan5D6utwgmnoun",
@@ -1975,11 +1977,12 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3168,
-        1440
+        3312,
+        1360
       ],
       "id": "a9aeed82-197e-4bdd-81e5-59db79d02e4a",
       "name": "Select rows from a table2",
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "fIan5D6utwgmnoun",
@@ -2077,7 +2080,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3648,
+        3856,
         1440
       ],
       "id": "c1e51e23-f618-4c70-9396-3ba108b6f9a4",
@@ -2121,11 +2124,12 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3312,
+        3520,
         1440
       ],
       "id": "09739bd9-7bcd-4f7f-9c0c-ad2e0d74348b",
       "name": "Select rows from a table3",
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "fIan5D6utwgmnoun",
@@ -2162,7 +2166,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3440,
+        3648,
         1440
       ],
       "id": "7e8ce7dd-f952-408f-972d-31385f5e4f55",
@@ -2189,7 +2193,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        3792,
+        4000,
         1440
       ],
       "id": "047a6b4f-410f-4dcb-a1d2-03cf10bf2a46",
@@ -2216,7 +2220,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        3808,
+        4016,
         1648
       ],
       "id": "bf2df198-6849-40de-be16-ec887b35abd2",
@@ -2230,8 +2234,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2224,
-        1232
+        2240,
+        1200
       ],
       "id": "99b59f0f-0a51-4dd8-be6f-999db3273add",
       "name": "Redis15",
@@ -2263,8 +2267,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2480,
-        1232
+        3120,
+        896
       ],
       "id": "3c86270d-54a9-43c0-8215-fdd0c71e312f",
       "name": "Programa finalizando"
@@ -2280,8 +2284,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2352,
-        1232
+        2496,
+        1200
       ],
       "id": "88536d69-643a-4aee-8f21-c2bcb8d9fbc4",
       "name": "Redis16",
@@ -2340,11 +2344,224 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        400,
-        -192
+        320,
+        -416
       ],
       "id": "47e71cdf-9b63-4dcb-b23f-54e75a950349",
-      "name": "Contato com o suporte"
+      "name": "Contato com o suporte",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.option"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        1200
+      ],
+      "id": "b6744c8f-9bff-4d13-a727-01dcb42bb866",
+      "name": "Redis17",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.option"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        880
+      ],
+      "id": "b3adaf09-949c-419b-9528-9beb1cb6cb6b",
+      "name": "Redis18",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "appState",
+        "value": "1"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3248,
+        896
+      ],
+      "id": "a526fc51-c984-4d41-8bf7-3f79d7397f75",
+      "name": "Redis19",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "appState",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        1152
+      ],
+      "id": "4bd8d54d-851b-4a1e-a7fa-8c2065faa876",
+      "name": "Redis20",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be5db260-37d5-477b-a486-b6bea2341a7b",
+              "leftValue": "={{ $json.propertyName }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2912,
+        992
+      ],
+      "id": "1cf1d9df-1dca-41cd-85c9-bfdfafceaf33",
+      "name": "If16"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "appState",
+        "value": "0"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1968,
+        432
+      ],
+      "id": "5296b233-6359-4e66-a63c-59f385f28822",
+      "name": "Redis21",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $json.body.data.key.remoteJidAlt }}.suporte",
+        "value": "1"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -416
+      ],
+      "id": "ed79d438-2890-4603-9032-9dce991d1ea8",
+      "name": "Redis22",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "={{ $json.body.data.key.remoteJidAlt }}.suporte",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -416
+      ],
+      "id": "b2045e6a-758c-455d-ab98-869bb46330ff",
+      "name": "Redis23",
+      "credentials": {
+        "redis": {
+          "id": "D1LAG0Hpr5GlJW5H",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e257db0b-289f-49dd-8c86-c2a7b76802fd",
+              "leftValue": "={{ $json.propertyName }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        -416
+      ],
+      "id": "f9c3d90f-4c28-4442-9f0b-5fbf69cd2edb",
+      "name": "If17"
     }
   ],
   "pinData": {},
@@ -2369,7 +2586,7 @@
             "index": 0
           },
           {
-            "node": "Contato com o suporte",
+            "node": "Redis23",
             "type": "main",
             "index": 0
           }
@@ -3151,7 +3368,7 @@
       "main": [
         [
           {
-            "node": "Redis16",
+            "node": "Redis17",
             "type": "main",
             "index": 0
           }
@@ -3162,7 +3379,116 @@
       "main": [
         [
           {
+            "node": "Redis20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis17": {
+      "main": [
+        [
+          {
+            "node": "Redis16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalização do programa": {
+      "main": [
+        [
+          {
+            "node": "Redis18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis19": {
+      "main": [
+        []
+      ]
+    },
+    "Programa finalizando": {
+      "main": [
+        [
+          {
+            "node": "Redis19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis20": {
+      "main": [
+        [
+          {
+            "node": "If16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If16": {
+      "main": [
+        [
+          {
             "node": "Programa finalizando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dando opções de pesquisa": {
+      "main": [
+        [
+          {
+            "node": "Redis21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis22": {
+      "main": [
+        []
+      ]
+    },
+    "Contato com o suporte": {
+      "main": [
+        [
+          {
+            "node": "Redis22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis23": {
+      "main": [
+        [
+          {
+            "node": "If17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If17": {
+      "main": [
+        [
+          {
+            "node": "Contato com o suporte",
             "type": "main",
             "index": 0
           }
@@ -3176,7 +3502,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "6b458f00-499c-4c12-a327-3d91bbc021ec",
+  "versionId": "371e73a1-3aa5-409e-8c9c-5026df6e3c22",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "f90683a3250d6a72cfac3a0065f86e58cd6b7591415b50618213fe1b4fb8d247"
