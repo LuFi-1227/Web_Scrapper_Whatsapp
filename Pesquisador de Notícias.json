@@ -1807,7 +1807,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO noticias (\n    titulo,\n    data_publicacao,\n    link,\n    assunto,\n    resumo,\n    corpo\n)\nVALUES (\n    '{{ $('Loop Over Items1').item.json.title.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.date.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.url }}',\n    '{{ $('Code in JavaScript').item.json.assunto.replaceAll('\"', '') }}',\n   '{{ $('Loop Over Items1').item.json.summary.replaceAll('\"', '') }}',\n    '{{ $('Loop Over Items1').item.json.body.replaceAll('\"', '').replaceAll(\"'\", \"\") }}'\n)\n  RETURNING id;\n",
+        "query": "INSERT INTO noticias (\n    titulo,\n    data_publicacao,\n    link,\n    assunto,\n    resumo,\n    corpo\n)\nVALUES (\n    '{{ $('Loop Over Items1').item.json.title.replaceAll(/['\"]/g, '') }}',\n    '{{ String($('Loop Over Items1').item.json.date ?? 'undefined') .replaceAll(/['\"]/g, '') }}',\n    '{{ $('Loop Over Items1').item.json.url }}',\n    '{{ $('Code in JavaScript').item.json.assunto.replaceAll(/['\"]/g, '') }}',\n   '{{ $('Loop Over Items1').item.json.summary.replaceAll(/['\"]/g, '') }}',\n    '{{ $('Loop Over Items1').item.json.body.replaceAll(/['\"]/g, '').replaceAll(\"'\", \"\") }}'\n)\n  RETURNING id;\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -2491,7 +2491,7 @@
     {
       "parameters": {
         "operation": "set",
-        "key": "={{ $json.body.data.key.remoteJidAlt }}.suporte",
+        "key": "={{ $('Edit Fields').item.json.body.data.key.remoteJidAlt }}.suporte",
         "value": "1"
       },
       "type": "n8n-nodes-base.redis",
@@ -2536,7 +2536,7 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict",
+            "typeValidation": "loose",
             "version": 3
           },
           "conditions": [
@@ -2552,6 +2552,7 @@
           ],
           "combinator": "and"
         },
+        "looseTypeValidation": true,
         "options": {}
       },
       "type": "n8n-nodes-base.if",
@@ -3502,7 +3503,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "371e73a1-3aa5-409e-8c9c-5026df6e3c22",
+  "versionId": "9e257e06-694f-4df5-a93c-9d391592f4fa",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "f90683a3250d6a72cfac3a0065f86e58cd6b7591415b50618213fe1b4fb8d247"
